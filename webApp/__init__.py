@@ -22,17 +22,17 @@ def create_app(config_class = Config):
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
-    mail.init_app(app)
+    mail.init_app(app)    
     from webApp.users.routes import users
     from webApp.posts.routes import posts
     from webApp.main.routes import main
     from webApp.errors.handlers import errors
-    from webApp.trading.routes import trading
+    from webApp.mathpractice.routes import mathpractice
     app.register_blueprint(users)
     app.register_blueprint(posts)
     app.register_blueprint(main)
     app.register_blueprint(errors)
-    app.register_blueprint(trading)
+    app.register_blueprint(mathpractice)
     return app           
 
 def reset_database(config_class = Config):
@@ -46,3 +46,15 @@ def create_tables(config_class = Config):
     app.config.from_object(Config)
     db.init_app(app)
     db.create_all()
+    
+    
+    
+# Use this to create new tables out of application context in spyder in correct folder
+
+'''
+from webApp import create_app, db
+app = create_app()
+app.app_context().push()
+db.init_app(app)
+db.create_all()
+'''    

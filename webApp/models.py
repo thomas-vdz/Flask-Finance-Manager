@@ -48,6 +48,24 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post('{self.title}','{self.date_posted}')"
 
+class Theorem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    course = db.Column(db.String(100), nullable=False)
+    chapter = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    theorem_latex = db.Column(db.Text, nullable=False)
+    proof_latex = db.Column(db.Text)
+    hint = db.Column(db.Text)
+    difficulty = db.Column(db.String(100), nullable=False)
+    progress = db.Column(db.String(100))
+    
+    
+    def __repr__(self):
+        return f"Theorem('{self.title}','{self.date_posted}')"
+
+
+
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)

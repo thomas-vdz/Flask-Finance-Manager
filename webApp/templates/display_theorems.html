@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<div id="theorem">
+    <table class="table table-dark">
+        <tr>
+            <th>Title</th>
+            <th>Course</th>
+            <th>Chapter</th>
+            <th>Difficulty</th>
+            <th>Practice</th>
+            <th>Delete?</th>
+        </tr>
+        {%for theorem in theorems %}
+        {% if theorem.difficulty == "Easy" %}
+        <tr class="green">
+        {% elif theorem.difficulty == "Difficult" %}
+        <tr class="yellow">
+        {% else %}
+        <tr class="red">
+        {% endif %}        
+
+            <td> {{ theorem.title }} </td>
+            <td> {{ theorem.course }} </td>
+            <td> {{ theorem.chapter }} </td>
+            <td> {{ theorem.difficulty }} </td>
+            <td><form action="{{ url_for('mathpractice.practice_theorem', theorem_id=theorem.id) }}" method="POST">
+                <input class="btn btn-light" type="submit" value="&#10004">
+            </form>            </td>
+            <td><form action="{{ url_for('mathpractice.delete_theorem', theorem_id=theorem.id) }}" method="POST">
+                <input class="btn btn-light" type="submit" value="&#10060">
+            </form>            </td>
+
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+
+
+{% endblock content %}

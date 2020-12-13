@@ -1,0 +1,113 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">{{ legend }}</legend>
+                <div class="form-group">
+                    {{ form.title.label(class="form-control-label") }}
+                    {% if form.title.errors %}
+                        {{ form.title(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.title.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.title(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.course.label(class="form-control-label") }}
+                    {% if form.course.errors %}
+                        {{ form.course(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.course.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.course(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.chapter.label(class="form-control-label") }}
+                    {% if form.chapter.errors %}
+                        {{ form.chapter(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.chapter.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.chapter(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    Enter Theorem in LaTeX or text:
+                    <p class="font-weight-light" style='font-size: 12px;'>Add any formulas in LaTeX form between brackets like this \( f(x)=x_{1}^{2} \)</p>
+
+                    {% if form.theorem_latex.errors %}
+                        {{ form.theorem_latex(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.theorem_latex.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.theorem_latex(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    Enter Proof in LaTeX or text:
+                    <p class="font-weight-light" style='font-size: 12px;'>Add any formulas in LaTeX form between brackets like this \( f(x)=x_{1}^{2} \)</p>
+                   {% if form.proof_latex.errors %}
+                        {{ form.proof_latex(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.proof_latex.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.proof_latex(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.hint.label(class="form-control-label") }}
+                    {% if form.hint.errors %}
+                        {{ form.hint(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.hint.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.hint(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="difficulty">
+                    {{ form.difficulty.label(class="form-control-label") }}:  
+                    {% if form.difficulty.errors %}
+                        {{ form.difficulty(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.difficulty.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {% for subfield in form.difficulty %}
+                        <tr>
+                            <td>{{ subfield }}</td>
+                            <td>{{ subfield.label }}</td>
+                        </tr>
+                        {% endfor %}
+                    {% endif %}
+                </div>                
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+{% endblock content %}

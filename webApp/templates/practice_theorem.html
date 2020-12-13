@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<!-- Script for loading latex-->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {
+         equationNumbers: {  autoNumber: "AMS"  },
+         extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+      }
+    });
+    </script>
+    <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+<script>
+function showProof() {
+  var x = document.getElementById("proof");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+function showHint() {
+  var x = document.getElementById("hint");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
+
+
+<div>
+    <div class='row'>
+        <h4 class='col'>Theorem: {{theorem.title}}</h4>
+        <h4 class='col'>Course: {{theorem.course}}</h4>
+        <h4 class='col'>Chapter: {{theorem.chapter}}</h4>
+    </div>
+    <hr>
+    <div id="theorem">
+     {{theorem.theorem_latex}}
+    </div>    
+
+    <div id='buttons'>
+        <button onclick="showHint()" class="btn btn-primary">Show Hint</button>
+        <button onclick="showProof()" class="btn btn-primary">Show proof</button>
+    </div>
+    <div id="hint" style="display:none;">
+        <h2>Hint:</h2>
+         {{theorem.hint}} 
+
+    </div>
+    <div id="proof" style="display:none;">
+        <h2>Proof:</h2>
+         {{theorem.proof_latex}} 
+
+    </div>
+
+</div>
+
+
+
+{% endblock content %}

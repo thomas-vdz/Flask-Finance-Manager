@@ -32,7 +32,16 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{{url_for('main.home')}}">Home</a>
-              <a class="nav-item nav-link" href="{{url_for('trading.paper_wallet')}}">Alpaca Paper Trading</a>
+
+            </div>
+            <div class="dropdown" style="float:left;">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Math Practice
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <a class="nav-item nav-link" href="{{url_for('mathpractice.add_theorem')}}">Add Theorem</a>
+                <a class="nav-item nav-link" href="{{url_for('mathpractice.show_theorems')}}">Show Theorems</a>
+              </div>
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
