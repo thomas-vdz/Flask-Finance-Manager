@@ -77,8 +77,8 @@ class TaskForm(FlaskForm):
 
 class Sort_TaskForm(FlaskForm):
     sort_category = SelectField('Category:', choices=[('all','All'),('school','School'),('work','Work'),('website','Website'),('other','Other')] , default='all')
-    date_desc = RadioField('Sort Date', choices=[('0','&#x2191;'),('1','&#x2193;')] , default='0')
-    imp_desc= RadioField('Importance', choices=[('0','&#x2191;'),('1','&#x2193;')] , default='0')
+    date_desc = RadioField('Sort Date', choices=[('0','&#x2191'),('1','&#x2193')] , default='0')
+    imp_desc= RadioField('Importance', choices=[('0','&#x2191'),('1','&#x2193')] , default='0')
     sort_submit = SubmitField('Sort')
 
 

@@ -45,21 +45,61 @@ function showHint() {
      {{theorem.theorem_latex}}
     </div>    
 
+    <hr style="border: 2px solid blue">
+
     <div id='buttons'>
         <button onclick="showHint()" class="btn btn-primary">Show Hint</button>
         <button onclick="showProof()" class="btn btn-primary">Show proof</button>
-    </div>
-    <div id="hint" style="display:none;">
-        <h2>Hint:</h2>
-         {{theorem.hint}} 
-
-    </div>
-    <div id="proof" style="display:none;">
-        <h2>Proof:</h2>
-         {{theorem.proof_latex}} 
-
+        <a href="{{url_for("mathpractice.update_theorem",theorem_id=theorem.id)}}" class="btn btn-primary"> Modify Theorem</a>
     </div>
 
+    <div class='hidden-items'>
+        <div id="hint" style="display:none;">
+            <h2>Hint:</h2>
+            {{theorem.hint}} 
+
+        </div>
+        <div id="proof" style="display:none;">
+            <h2>Proof:</h2>
+            {{theorem.proof_latex}} 
+
+        </div>
+    </div>  
+    <div class="theorem-progress row">
+      <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <div class='col'>
+          {{ form.progress.label(class="progress-label") }}:  
+          {% if form.progress.errors %}
+              {{ form.progress(class="form-control form-control-lg is-invalid") }}
+              <div class="invalid-feedback">
+                  {% for error in form.progress.errors %}
+                      <span>{{ error }}</span>
+                  {% endfor %}
+              </div>
+          {% else %}
+              {% for subfield in form.progress %}
+              <div class="btn btn-info">
+                <tr>
+                    <td>{{ subfield }}</td>
+                    <td>{{ subfield.label }}</td>
+                </tr>
+              </div>
+              {% endfor %}
+          {% endif %}
+        </div>
+        <h1> {{left}} Theorems left </h1>
+        <div class='progress-buttons row'>
+          <div class="form-group col">
+            {{ form.submit_next(class="btn btn-outline-info") }}
+          </div>
+          <div class="form-group col">
+            {{ form.submit_random(class="btn btn-outline-info") }}
+          </div>
+        </div>
+    </form>
+
+  </div>      
 </div>
 
 

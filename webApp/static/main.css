@@ -113,6 +113,7 @@ a.article-title:hover {
 }
 
 
+
 /*Dashboard*/
 .graph img {
   width: 500px;
@@ -129,15 +130,6 @@ a.article-title:hover {
 
 }
 
-.red {
-  background-color: red;
-}
-
-.green {
-  background-color: green
-}
-
-
 .year-overview {
   text-align: center;
 }
@@ -146,3 +138,41 @@ hr.rounded {
   border-top: 8px solid #4d4d4d;
   border-radius: 5px;
 }
+
+/*Mathpractice*/
+
+#buttons {
+  margin-top:20px;
+  margin-bottom: 20px;
+  float: right;
+  padding-left:  10px;
+  padding-right: 10px;
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+
+
+/*Other*/
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.yellow {
+  background-color: yellow;
+  color: black;
+}
+
+.progress-label {
+ font-weight: bold;
+ font-size: 20px;
+
+}
+

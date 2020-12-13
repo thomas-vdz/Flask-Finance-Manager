@@ -13,3 +13,14 @@ class MathForm(FlaskForm):
     difficulty = RadioField('Difficulty', choices=[('Easy','Easy'),('Difficult','Difficult'),('Hard','Hard')], default = 'Easy')
     submit = SubmitField('Add')
 
+
+class MathFormProgress(FlaskForm):
+    progress = RadioField('Progress', choices=[('Not learned','Not learned'),('Almost there','Almost there'),('Mastered','Mastered')], default = 'Not learned')
+    submit_next = SubmitField('Next theorem')
+    submit_random = SubmitField('Random not mastered theorem')
+
+
+class MathFormSort(FlaskForm):
+    
+    submit_next = SubmitField('Sort')
+    

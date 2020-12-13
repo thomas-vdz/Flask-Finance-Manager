@@ -20,6 +20,7 @@ class User(db.Model, UserMixin):
     tasks = db.relationship('Task', backref='author', lazy=True)
     transactions = db.relationship('Transaction', backref='author', lazy=True)
     income =  db.relationship('Income', backref='author', lazy=True)
+    theorems = db.relationship('Theorem', backref='author', lazy=True)
     
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'] , expires_sec)
@@ -59,6 +60,7 @@ class Theorem(db.Model):
     hint = db.Column(db.Text)
     difficulty = db.Column(db.String(100), nullable=False)
     progress = db.Column(db.String(100))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
     
     def __repr__(self):

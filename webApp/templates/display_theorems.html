@@ -4,11 +4,12 @@
 
 <div id="theorem">
     <table class="table table-dark">
+
         <tr>
             <th>Title</th>
             <th>Course</th>
             <th>Chapter</th>
-            <th>Difficulty</th>
+            <th>Progress</th>
             <th>Practice</th>
             <th>Delete?</th>
         </tr>
@@ -21,10 +22,10 @@
         <tr class="red">
         {% endif %}        
 
-            <td> {{ theorem.title }} </td>
+            <td style='width: 30%;'> {{ theorem.title }} </td>
             <td> {{ theorem.course }} </td>
             <td> {{ theorem.chapter }} </td>
-            <td> {{ theorem.difficulty }} </td>
+            <td> {{ theorem.progress }} </td>
             <td><form action="{{ url_for('mathpractice.practice_theorem', theorem_id=theorem.id) }}" method="POST">
                 <input class="btn btn-light" type="submit" value="&#10004">
             </form>            </td>
