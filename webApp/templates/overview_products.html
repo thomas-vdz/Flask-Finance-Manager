@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+
+<h4>Products left: {{ still_left}}</h4>
+
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <div class="row">
+        <div class="col">
+            {{form.searchphrase(class="form-control form-control-lg")}}
+        </div>
+        <div class="col">
+            {{form.submit(class="btn btn-outline-info")}}
+        </div>
+    </div>
+</form>
+
+<table class='table table-dark'>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Fix product</th>
+    </tr>
+    <!--Content-->
+    {% for product in selection %}     
+    <tr>
+    <td>{{product.product_id}}</td>
+    <td>{{product.handle}}</td>
+        
+    <td><form action="{{ url_for('users.update_product', product_id=product.product_id) }}" method="POST">
+        <input class="btn btn-light" type="submit" value="&#x2713;" style=" font-size: 20px;    color:rgb(34, 194, 34);   font-weight: bold;">
+    </form>            </td>
+
+    </tr>
+    {% endfor %}
+    </table>
+
+
+    
+{% endblock content %}

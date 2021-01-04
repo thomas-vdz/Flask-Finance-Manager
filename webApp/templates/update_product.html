@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<img src={{image_url}}>
+<img src={{second_image}}>
+
+
+
+<div class= 'row prod-info'>
+    <div class= "col">
+        <h5>Fabriek: {{ fabriek }} </h5>
+        <h5>Levertijd: {{ levertijd }} </h5>
+        <h5>Minimale hoeveelheid: {{ minimum_info }} </h5>
+    </div>
+    <div class= "col">
+        <h5>Korte Beschrijving: {{ shortDescription }} </h5>
+        <h5>Artikel: {{ p.handle }} </h5>
+    </div>
+</div>
+<div id="oudebeschrijving">
+        {{ description |safe }}
+</div>
+
+<div class= 'variants'>
+    <table class='table table-dark' style="margin-top: 20px;">
+        <tr>
+            <th>ID</th>
+            <th>Optie 1</th>
+            <th>Optie 2</th>
+            <th>Totaal aantal</th>
+        </tr>
+        <form method='POST'>
+            {{ form.hidden_tag() }}
+
+            {{ form.preorder.label(class="form-control-label") }}
+            {{ form.preorder(class="form-control form-control-lg") }}
+
+            {{ form.quantity.label(class="form-control-label") }}
+            {{ form.quantity(class="form-control form-control-lg") }}
+
+            {{ form.qty_steps.label(class="form-control-label") }}
+            {{ form.qty_steps(class="form-control form-control-lg") }}
+
+            {{ form.beschrijving.label(class="form-control-label") }}
+            {{ form.beschrijving(class="form-control form-control-lg") }}
+
+
+            {% for variant in form.variants %}
+            
+            <tr>
+                <td>{{ variant.variant_id.data }}</td>
+                <td>{{ variant.option1.data }}</td>
+                <td>{{ variant.option2.data }}</td>
+                <td>{{ variant.stock }}</td>
+            </tr>
+
+            {% endfor %}
+        </table>
+
+            {{ form.submit(class="btn btn-outline-info") }}
+        </form>
+    
+</div>
+
+
+{% endblock content %}

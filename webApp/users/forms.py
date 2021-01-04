@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField , SelectField , RadioField, DecimalField , DateField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField , SelectField , RadioField, DecimalField , DateField, FieldList, FormField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_login import current_user
 from webApp.models import User
@@ -123,3 +123,26 @@ class Generate_Report(FlaskForm):
     submit = SubmitField('Generate Report')
 
 
+
+
+#FOURNITURENWEB
+
+class StockEntryForm(FlaskForm):
+    variant_id = StringField()
+    option1 = StringField()
+    option2 = StringField()
+    stock = StringField(default = '0')
+
+class ProductForm(FlaskForm):
+    """A form for one or more addresses"""
+    variants = FieldList(FormField(StockEntryForm), min_entries=1)
+    preorder = StringField('Levertijd' )
+    quantity = StringField('Minimaal aantal')
+    qty_steps = StringField('Stappen van')
+
+    beschrijving = StringField('Beschrijving')
+    submit = SubmitField('Update product')
+
+class SearchProductForm(FlaskForm):
+    searchphrase = StringField("Product id")
+    submit = SubmitField('Search')

@@ -118,3 +118,11 @@ class StockAlert(db.Model):
     volume = db.Column(db.Numeric(10,2))
     exchange = db.Column(db.String(100))
     ticker = db.Column(db.String(20))
+
+
+
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    handle = db.Column(db.String(100))
+    product_id = db.Column(db.Integer)
+    completed = db.Column(db.Boolean, default=False)

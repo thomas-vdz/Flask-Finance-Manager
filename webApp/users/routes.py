@@ -1,11 +1,11 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint , make_response
 from flask_login import login_user, current_user, logout_user, login_required
 from webApp import db, bcrypt
-from webApp.models import User, Post , Task , Transaction , Income
+from webApp.models import User, Post , Task , Transaction , Income, Product
 from webApp.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
                                    RequestResetForm, ResetPasswordForm, TaskForm, 
                                    Sort_TaskForm, TransactionForm, Sort_Transactions, 
-                                   Generate_Report, IncomeForm, Sort_Income)
+                                   Generate_Report, IncomeForm, Sort_Income,ProductForm , SearchProductForm)
 from webApp.users.utils import save_picture, send_reset_email
 import datetime as dt
 from sqlalchemy import extract
@@ -13,8 +13,13 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import base64
 import math
+import json
+import requests
+import time
+
 from io import BytesIO
 
+from webApp.config import Config
 
 
 
@@ -413,3 +418,168 @@ def dashboard():
 
 
 # END FINANCE SECTION -----------------------------------------------------------------------
+
+
+
+# FOUENITURENEWEB TIJDELIJK  
+
+# Remove links , add metafields, pretty the page, make searchbar link , 
+
+@users.route("/find_product/<searchterm>", methods=['GET','POST'])
+def find_product(searchterm):
+    p = Product.query.filter(Product.handle.contains( searchterm )).all()[0]
+    return redirect(url_for("users.update_product", product_id = p.product_id ))    
+
+@users.route("/overview_products", methods=['GET','POST'])
+def overview_products():
+        products = Product.query.filter_by(completed=False)
+        still_left = products.count()
+        selection = products[0:15]
+        form= SearchProductForm()
+
+        if  form.submit.data and form.validate_on_submit:
+            try:
+                return redirect(url_for("users.find_product", searchterm = form.searchphrase.data))
+            except:
+                flash('That product could not be found', category='error')
+                return redirect(url_for('users.overview_products'))    
+
+        return render_template('overview_products.html', no_sidebar=True, still_left=still_left,selection=selection, form=form)
+
+@users.route("/update_product/<int:product_id>", methods=['GET','POST'])
+def update_product(product_id):
+    base_url = Config.FOURNITUREN_API_BASE_URL +'/admin/api/2021-01/products/'
+    
+    url = base_url + str(product_id)  +'.json'
+    meta_url = base_url + str(product_id) + '/metafields.json'
+
+    r = requests.get(url).content
+    data = json.loads(r)
+
+    #time.sleep(0.5)
+    #Metafield info
+    r_meta= requests.get(meta_url).content
+    data_meta = json.loads(r_meta)
+
+    metafields = data_meta['metafields']
+
+    try:
+        shortDescription = [dic['value'] for dic in metafields if dic['key'] == 'shortDescription'][0]
+    except:
+        shortDescription = ''
+
+    try:
+        levertijd = [dic['value'] for dic in metafields if dic['key'] == 'levertijd'][0]
+    except:
+        levertijd = ''    
+
+    try:
+        fabriek = [dic['value'] for dic in metafields if dic['key'] == 'fabriek'][0]
+    except:
+        fabriek = ''
+
+    try:
+        minimum_info = [dic['value'] for dic in metafields if dic['key'] == 'minimum_info'][0]
+    except:
+        minimum_info = ''
+
+
+
+
+
+    product = data['product']
+    description = product['body_html']
+
+
+    image_url = product['image']['src']
+
+    try:
+        second_image = product['images'][1]['src']
+    except:
+        second_image = ''
+
+    variants  = product['variants']
+
+
+    var = []
+    for v in variants:
+        var.append( {'variant_id':v['id'], 'option1':v['option1'] , 'option2':v['option2'] })
+        
+    p = Product.query.filter_by(product_id=product_id)[0]
+    
+    #form stuff
+
+    form = ProductForm(variants=var)
+
+
+    if  form.submit.data and form.validate_on_submit:
+        updated_var = []
+        for field in form.variants:
+            updated_var.append( {'id':field.variant_id.data, "inventory_quantity": int(field.stock.data), "inventory_policy": "continue" })
+       
+        metafields = [ ]
+
+        if form.preorder.data:
+            metafields.append({
+            'key': 'preorder',
+            'value': form.preorder.data,
+            'value_type': 'string',
+            'namespace': 'preorder',
+        })
+
+        if form.quantity.data:
+            metafields.append({
+            'key': 'quantity',
+            'value': int(form.quantity.data),
+            'value_type': 'integer',
+            'namespace': 'quantity',
+        })
+
+        if form.qty_steps.data:
+            metafields.append({
+            'key': 'qty_steps',
+            'value': int(form.qty_steps.data),
+            'value_type': 'integer',
+            'namespace': 'qty_steps',
+        })
+
+        
+        payload = {
+        "product": {
+                    "id": product_id,
+                    "variants": updated_var,
+                    "vendor": str(fabriek),
+                    "metafields" : metafields
+
+            }
+        }
+
+        if form.beschrijving.data:
+            payload['product']['body_html'] = """<p style="font-size: 18px;">"""+form.beschrijving.data+"</p>"
+
+        headers = {"Accept": "application/json", "Content-Type": "application/json"}
+
+        response = requests.put(url, headers=headers,  json=payload)
+
+        if response.status_code == 200:
+            flash('Product updated successfully', category='success')
+            p.completed = True
+            db.session.add(p)
+            db.session.commit()
+            return redirect(url_for("users.overview_products"))
+            
+        else:
+            flash('Something went wrong'+str(response.content), category='error')
+            return redirect(request.referrer)
+        
+        
+
+
+    
+
+
+    return render_template('update_product.html',no_sidebar=True, shortDescription=shortDescription, levertijd =levertijd ,fabriek=fabriek , minimum_info=minimum_info ,image_url=image_url,
+        second_image=second_image , variants=variants , form=form , description=description, p=p
+        )
+
+

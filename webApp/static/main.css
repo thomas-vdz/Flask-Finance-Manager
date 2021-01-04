@@ -176,3 +176,13 @@ hr.rounded {
 
 }
 
+
+/* Fouirnituren*/
+#oudebeschrijving {
+  border : 10px solid rgb(136, 136, 202);
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight bold;
+  margin-top:20px;
+  text-align: center;
+}
