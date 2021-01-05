@@ -479,7 +479,7 @@ def update_product(product_id):
         fabriek = ''
 
     try:
-        minimum_info = [dic['value'] for dic in metafields if dic['key'] == 'minimum_info'][0]
+        minimum_info = [dic['value'] for dic in metafields if dic['key'] == 'aantal-tonen'][0]
     except:
         minimum_info = ''
 
