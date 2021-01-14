@@ -204,8 +204,6 @@ def transactions():
     return render_template('transactions.html', title='Finances' , form=form,  transactions=transactions , sort_form=sort_form , total_sum=total_sum, no_sidebar=True , curr_month=curr_month())
 
 
-
-#Deletes a Transaction
 @users.route("/transaction/<int:transaction_id>/delete", methods=['POST'])
 @login_required
 def delete_transaction(transaction_id):
@@ -216,6 +214,50 @@ def delete_transaction(transaction_id):
     db.session.commit()
     flash('Transaction deleted!', 'success')
     return redirect(request.referrer)
+
+@users.route("/transaction/<int:transaction_id>/edit", methods=['POST','GET'])
+@login_required
+def edit_transaction(transaction_id):
+    transaction= Transaction.query.get_or_404(transaction_id)
+    if transaction.author != current_user:
+        abort(403)
+
+    form = TransactionForm()
+    if form.submit.data and form.validate_on_submit():
+        transaction.category = form.category.data
+
+        if transaction.category == 'abbonement':
+            transaction.sub = True
+        else:
+            transaction.sub = False
+        transaction.content = form.content.data
+        transaction.amount = float(form.amount.data)
+        transaction.tax_percentage = float(form.tax_percentage.data)
+
+        # Transforms to BOOLEAN
+        if form.is_deductable.data == "Yes":
+            is_deductable = True
+        else:
+            is_deductable = False
+
+        transaction.is_deductable = is_deductable
+        transaction.tax_amount= calc_TAX( transaction.amount , transaction.tax_percentage)
+        db.session.commit()
+        flash('Transaction has been updated','success')
+        return redirect(request.referrer)
+
+    elif request.method == 'GET':
+        form.content.data = transaction.content
+        form.amount.data = transaction.amount
+        form.category.data = transaction.category
+        form.tax_percentage.data = str(transaction.tax_percentage)
+        form.is_deductable.data = transaction.is_deductable
+    
+
+    return render_template("edit_transaction.html", form=form)
+
+
+
 
 
 

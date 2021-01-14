@@ -84,8 +84,9 @@ class Sort_TaskForm(FlaskForm):
 
 
 #Current Date
-this_month = date.today().strftime("%m")
-
+today = date.today()
+this_month = today.strftime("%m")
+this_year = today.strftime("%y")
 #Finance
 class TransactionForm(FlaskForm):
     amount = DecimalField('Amount', validators=[DataRequired()])
@@ -104,12 +105,12 @@ class IncomeForm(FlaskForm):
     submit = SubmitField('Add')
 
 
-months = [("01","January"),("02","Februari"),("03","March"),("04","April"),("05","May"),("06","Juni"),("07","Juli"),("08","August"),("09","September"),("10","Oktober"),("11","November"),("12","December")]
-
+months = [("01","January"),("02","Februari"),("03","March"),("04","April"),("05","May"),("06","Juni"),("07","Juli"),("08","August"),("09","September"),("10","Oktober"),("11","November"),("12","December"),('all','All')]
+years = [("2021","2021"),("2022","2022"),("2023","2023"),("2024","2024"),("2025","2025")]
 class Sort_Transactions(FlaskForm):
     month = SelectField('Month:',choices=months, default = this_month)
-    sort_category = SelectField('Category:',choices=[('all','All'),('Groceries','Groceries'),('Bars/Clubs','Bars/Clubs'),('Restaurants','Restaurants'),('Smoking','Smoking'),('Transportation','Transportation'),('Other','Other')] , default='all')
-    date_desc = RadioField('Date', choices=[('0','&#x2191;'),('1','&#x2193;')] , default='0')
+    year = SelectField('Year:',choices=years, default = this_year)
+    category = SelectField('Category:',choices=[('all','All'),('Groceries','Groceries'),('Bars/Clubs','Bars/Clubs'),('Restaurants','Restaurants'),('Smoking','Smoking'),('Transportation','Transportation'),('Other','Other')] , default='all')
     sort_submit = SubmitField('Sort')
 
 

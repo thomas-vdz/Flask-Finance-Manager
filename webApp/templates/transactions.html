@@ -1,6 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-
     <div class="finance content-section">
         <form method="POST" action="">
             {{ form.hidden_tag() }}
@@ -93,57 +92,63 @@
         </form>
 
         
+        <div id="transaction-sort-row">
+                            <!-- Sort Row -->
+                            <form  method="POST" action="">  
+                  
+                                {{ sort_form.hidden_tag() }}
+                                <div class="transaction-sort-row-element">
+                                    {% if sort_form.month.errors %}
+                                        {{ sort_form.month(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in sort_form.month.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ sort_form.month(class="form-control form-control-lg") }}
+                                    {% endif %}
+                
+                                  </div>
+                                  <div class="transaction-sort-row-element">
+                                    {% if sort_form.year.errors %}
+                                        {{ sort_form.year(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in sort_form.year.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ sort_form.year(class="form-control form-control-lg") }}
+                                    {% endif %}
+                
+                                  </div>                      
+                                  <div class="transaction-sort-row-element">
+                                    {% if sort_form.category.errors %}
+                                        {{ sort_form.category(class="form-control form-control-lg is-invalid") }}
+                                        <div class="invalid-feedback">
+                                            {% for error in sort_form.category.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ sort_form.category(class="form-control form-control-lg") }}
+                                    {% endif %}
+                
+                                  </div>
+            
+            
+                                  <div class="transaction-sort-row-element">
+                                     
+                                    <div class='total-amount'> <p>Total:  €{{total_sum}}</p></div>
+                                    
+                                  </div>
+                                  <div class="transaction-sort-row-element">{{sort_form.sort_submit(class="btn btn-primary transaction-sort-button")}}</div>
+                
+                            </form>
+            
+        </div>
             <table class="table table-dark">
-
-
-
-                <!-- Sort Row -->
-                <form  method="POST" action="">  
-                    <tr>
-      
-                    {{ sort_form.hidden_tag() }}
-                    <th id="fin-sort-category">
-                        {% if sort_form.month.errors %}
-                            {{ sort_form.month(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in sort_form.month.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ sort_form.month(class="form-control form-control-lg") }}
-                        {% endif %}
-    
-                      </th>                    
-                      <th>
-                        {% if sort_form.sort_category.errors %}
-                            {{ sort_form.sort_category(class="form-control form-control-lg is-invalid") }}
-                            <div class="invalid-feedback">
-                                {% for error in sort_form.sort_category.errors %}
-                                    <span>{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                        {% else %}
-                            {{ sort_form.sort_category(class="form-control form-control-lg") }}
-                        {% endif %}
-    
-                      </th>
-                    <th>Due date:
-                        {% for subfield in sort_form.date_desc %}                
-                        
-                            {{ subfield }}
-                           {{ subfield.label(class="arrow") }}
-    
-                        {% endfor %}   
-                      </th>
-
-                      <th>Total: €{{total_sum}}</th>
-                      <th>{{sort_form.sort_submit(class="btn-sml sort-submit btn-primary")}}</th>
-    
-                    </tr>
-                </form>
-
-
                 <!--HEADER-->
                 <tr>
                     <th>Date</th>
@@ -151,7 +156,8 @@
                     <th>Amount</th>
                     <th>BTW</th>
                     <th>Category</th>
-                    <th></th>
+                    <th>Edit</th>
+                    <th>Delete</th>
 
                 </tr>
                 <!--Content-->
@@ -163,9 +169,16 @@
                   <td>{{transaction.content}}</td>
                   <td>€{{transaction.amount}}</td>
                   <td>€{{transaction.tax_amount}}</td>
-                  <td style="text-transform: capitalize;">{{transaction.category}}</td>                 
+                  <td style="text-transform: capitalize;">{{transaction.category}}</td>
+                  <td><form action="{{ url_for('users.edit_transaction', transaction_id=transaction.id) }}" method="GET">
+                    <button type="submit" class="btn btn-light">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </form>            </td>                 
                   <td><form action="{{ url_for('users.delete_transaction', transaction_id=transaction.id) }}" method="POST">
-                      <input class="btn btn-light" type="submit" value="&#x274C">
+                    <button type="submit" class="btn btn-light">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
                   </form>            </td>
       
                 </tr>

@@ -83,36 +83,44 @@ a.article-title:hover {
   margin-top: 25px;
 }
 
+/*Finance Section*/
 
-/*Tasks Page*/
-.task-rating {
-  margin-top: 40px;
+
+
+/*Transaction pages*/
+.total-amount {
+  text-align: center;
+  font-size: 16px;
+
 }
 
-.tasks #sort_category {
-  float: right;
-  font-size: 15px;
-  width: 66%;
+.transaction-sort-row-element {
+   display: inline-block;
+   margin-right: 25px;
 }
 
-#sort-submit{
-  float:left;
+#transaction-sort-row  .form-control{
+  display: inline-block;
 }
 
-/*Finance Page*/
-
-#fin-sort-category #month{
-  width: 66%;
-  height: 40px;
+#transaction-sort-row{
+    background-color: #343a40;
+    padding: 10px; 
 }
 
-.finance #sort_category {
-  float: left;
-  width: 66%;
-  height:40px;
+.total-amount{
+  font-size: 20px;
+  font-weight: bold;
+  color:white;s
 }
 
-
+.transaction-sort-button{
+   width:150px;
+   border: 3px solid black;
+   border-radius:25px;
+   margin-bottom:5px;
+   font-size: 20px;
+}
 
 /*Dashboard*/
 .graph img {
@@ -182,7 +190,7 @@ hr.rounded {
   border : 10px solid rgb(136, 136, 202);
   border-radius: 25px;
   font-size: 14px;
-  font-weight bold;
+  font-weight: bold;
   margin-top:20px;
   text-align: center;
 }
