@@ -31,7 +31,11 @@
     <td><form action="{{ url_for('users.update_product', product_id=product.product_id) }}" method="POST">
         <input class="btn btn-light" type="submit" value="&#x2713;" style=" font-size: 20px;    color:rgb(34, 194, 34);   font-weight: bold;">
     </form>            </td>
-
+    <td><form action="{{ url_for('users.delete_product', product_id=product.id) }}" method="POST">
+        <button type="submit" class="btn btn-light">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+      </form>            </td>
     </tr>
     {% endfor %}
     </table>

@@ -465,7 +465,6 @@ def dashboard():
 
 # FOUENITURENEWEB TIJDELIJK  
 
-# Remove links , add metafields, pretty the page, make searchbar link , 
 
 @users.route("/find_product/<searchterm>", methods=['GET','POST'])
 def find_product(searchterm):
@@ -476,7 +475,7 @@ def find_product(searchterm):
 def overview_products():
         products = Product.query.filter_by(completed=False)
         still_left = products.count()
-        selection = products[0:15]
+        selection = products[-30:-1]
         form= SearchProductForm()
 
         if  form.submit.data and form.validate_on_submit:
@@ -487,6 +486,15 @@ def overview_products():
                 return redirect(url_for('users.overview_products'))    
 
         return render_template('overview_products.html', no_sidebar=True, still_left=still_left,selection=selection, form=form)
+
+@users.route("/delete_product/<int:product_id>", methods=['GET','POST'])
+def delete_product(product_id):
+    product = Product.query.get_or_404(product_id)
+    db.session.delete(product)
+    db.session.commit()
+    flash('Product removed!', 'success')    
+    return redirect(url_for('users.overview_products')) 
+
 
 @users.route("/update_product/<int:product_id>", methods=['GET','POST'])
 def update_product(product_id):
@@ -503,7 +511,10 @@ def update_product(product_id):
     r_meta= requests.get(meta_url).content
     data_meta = json.loads(r_meta)
 
-    metafields = data_meta['metafields']
+    try:
+        metafields = data_meta['metafields']
+    except:
+        metafields = []
 
     try:
         shortDescription = [dic['value'] for dic in metafields if dic['key'] == 'shortDescription'][0]
@@ -532,7 +543,7 @@ def update_product(product_id):
     product = data['product']
     description = product['body_html']
 
-
+    title = product['title']
     image_url = product['image']['src']
 
     try:
@@ -599,6 +610,9 @@ def update_product(product_id):
         if form.beschrijving.data:
             payload['product']['body_html'] = """<p style="font-size: 18px;">"""+form.beschrijving.data+"</p>"
 
+        if form.title.data:
+            payload['product']['title'] = form.title.data
+        
         headers = {"Accept": "application/json", "Content-Type": "application/json"}
 
         response = requests.put(url, headers=headers,  json=payload)
@@ -621,7 +635,7 @@ def update_product(product_id):
 
 
     return render_template('update_product.html',no_sidebar=True, shortDescription=shortDescription, levertijd =levertijd ,fabriek=fabriek , minimum_info=minimum_info ,image_url=image_url,
-        second_image=second_image , variants=variants , form=form , description=description, p=p
+        second_image=second_image , variants=variants , form=form , description=description, p=p, title=title,
         )
 
 

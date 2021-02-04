@@ -6,8 +6,9 @@
 <img src={{second_image}}>
 
 
-
+<h1>{{title}}</h1>
 <div class= 'row prod-info'>
+    
     <div class= "col">
         <h5>Fabriek: {{ fabriek }} </h5>
         <h5>Levertijd: {{ levertijd }} </h5>
@@ -30,8 +31,13 @@
             <th>Optie 2</th>
             <th>Totaal aantal</th>
         </tr>
+
+        
         <form method='POST'>
             {{ form.hidden_tag() }}
+
+            {{ form.title.label(class="form-control-label") }}
+            {{ form.title(class="form-control form-control-lg") }}
 
             {{ form.preorder.label(class="form-control-label") }}
             {{ form.preorder(class="form-control form-control-lg") }}

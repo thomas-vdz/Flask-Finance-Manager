@@ -137,6 +137,8 @@ class StockEntryForm(FlaskForm):
 class ProductForm(FlaskForm):
     """A form for one or more addresses"""
     variants = FieldList(FormField(StockEntryForm), min_entries=1)
+
+    title = StringField('Titel')
     preorder = StringField('Levertijd' )
     quantity = StringField('Minimaal aantal')
     qty_steps = StringField('Stappen van')
