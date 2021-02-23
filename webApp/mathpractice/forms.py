@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired
 
 class MathForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
-    course = SelectField('Course', choices=[('Mathematics 4','Mathematics 4')] , default='Mathematics 4')
+    course = SelectField('Course', choices=[('Mathematics 4','Mathematics 4'),('Econometrics 1','Econometrics 1'),('Mathematical Economics 1','Mathematical Economics 1')] , default='Mathematical Economics 1')
     chapter = StringField('Chapter', validators=[DataRequired()])
     theorem_latex = TextAreaField('Theorem_latex',  validators=[DataRequired()] )
     proof_latex = TextAreaField('Proof_latex',  validators=[DataRequired()] )

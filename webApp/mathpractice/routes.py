@@ -32,8 +32,7 @@ def show_theorems():
     theorems = Theorem.query.all()
 
 
-    return render_template('display_theorems.html',title='Theorems' , theorems=theorems ,
-                            legend='boeie ruurd', no_sidebar = True )
+    return render_template('display_theorems.html',title='Theorems' , theorems=theorems , no_sidebar = True )
 
 
 

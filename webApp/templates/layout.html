@@ -59,7 +59,6 @@
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="{{ url_for('users.overview_products') }}">Fourniturenewb</a>
               {% if current_user.is_authenticated %}
                 <a class="nav-item nav-link" href="{{ url_for('users.dashboard') }}">Dashboard</a>
                 <a class="nav-item nav-link" href="{{ url_for('users.transactions') }}">Transactions</a>   
